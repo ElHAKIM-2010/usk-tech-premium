@@ -1,36 +1,44 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# USK Tech Premium
 
-## Getting Started
+Toko elektronik premium terjangkau: katalog, keranjang, checkout transfer bank, riwayat pesanan, dan panel admin. Dibangun dengan Next.js App Router, TypeScript, Tailwind CSS, Auth.js, Drizzle ORM, dan Neon PostgreSQL.
 
-First, run the development server:
+## Menjalankan secara lokal
+
+1. Salin env yang dibutuhkan ke `.env.local`:
+   - `DATABASE_URL` — connection string Neon **pooled** (wajib, untuk runtime).
+   - `DATABASE_URL_UNPOOLED` — connection string langsung (dipakai migrasi/script).
+   - `AUTH_SECRET` — secret acak untuk sesi Auth.js (wajib).
+   - `BANK_NAME`, `BANK_ACCOUNT_NUMBER`, `BANK_ACCOUNT_HOLDER` — opsional; jika kosong, halaman pesanan menampilkan peringatan bahwa rekening belum diatur.
+2. `npm install`
+3. `npm run db:migrate` — menerapkan migrasi Drizzle ke database.
+4. `npm run db:seed` — mengisi katalog awal (opsional).
+5. `npm run dev` — buka http://localhost:3000
+
+Jadikan akun admin setelah akun terdaftar:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm run db:admin -- email@contoh.com
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Pemeriksaan
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+npx tsc --noEmit
+npm run lint
+npm run build
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Deployment
 
-## Learn More
+Target: Vercel + Neon PostgreSQL.
 
-To learn more about Next.js, take a look at the following resources:
+1. Import repository ini di Vercel.
+2. Tambahkan environment variable produksi: `DATABASE_URL` (pooled) dan `AUTH_SECRET`. Tambahkan `BANK_*` hanya jika data rekening sudah tersedia.
+3. Terapkan migrasi ke database produksi dari mesin lokal: `npm run db:migrate` (memakai `DATABASE_URL_UNPOOLED`).
+4. Deploy, lalu uji: beranda, katalog, login, checkout, riwayat pesanan, dan `/admin` dengan akun admin.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Catatan keamanan:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- `.env.local` dan folder `.neon` tidak boleh di-commit.
+- Harga, stok, status pesanan, dan role selalu diperiksa di server; pembatalan pesanan mengembalikan stok lewat transaksi database.
+- Endpoint `/api/health/db` hanya melaporkan status koneksi dan tidak membocorkan kredensial.

@@ -1,0 +1,27 @@
+{
+  "version": "7",
+  "dialect": "postgresql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "7",
+      "when": 1793106069081,
+      "tag": "0000_init_catalog_auth",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1793110167984,
+      "tag": "0001_charming_pestilence",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1793112171601,
+      "tag": "0002_watery_marvex",
+      "breakpoints": true
+    }
+  ]
+}
