@@ -2,6 +2,8 @@
 
 Toko elektronik premium terjangkau: katalog, keranjang, checkout transfer bank, riwayat pesanan, dan panel admin. Dibangun dengan Next.js App Router, TypeScript, Tailwind CSS, Auth.js, Drizzle ORM, dan Neon PostgreSQL.
 
+Situs produksi: https://usk-tech-premium.vercel.app
+
 ## Menjalankan secara lokal
 
 1. Salin env yang dibutuhkan ke `.env.local`:
