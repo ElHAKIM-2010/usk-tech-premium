@@ -9,6 +9,7 @@ export const dynamic = "force-dynamic";
 export const metadata: Metadata = {
   title: "Keranjang",
   description: "Tinjau produk yang kamu pilih sebelum melanjutkan ke checkout.",
+  robots: { index: false, follow: false },
 };
 
 export default async function CartPage() {

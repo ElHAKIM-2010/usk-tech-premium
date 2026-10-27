@@ -18,6 +18,7 @@ export const dynamic = "force-dynamic";
 export const metadata: Metadata = {
   title: "Akun",
   description: "Ringkasan akun USK Tech Premium.",
+  robots: { index: false, follow: false },
 };
 
 const joinedFormatter = new Intl.DateTimeFormat("id-ID", {

@@ -8,6 +8,7 @@ import { PurchasePanel } from "@/components/product/purchase-panel";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { discountPercent, formatIDR } from "@/lib/format";
 import { cn } from "@/lib/cn";
+import { SITE_NAME, SITE_URL } from "@/lib/site";
 import {
   getOtherProducts,
   getProductBySlug,
@@ -26,11 +27,34 @@ export async function generateMetadata({
   const { slug } = await params;
   const product = await getProductBySlug(slug);
 
-  if (!product) return { title: "Produk tidak ditemukan" };
+  if (!product) {
+    return {
+      title: "Produk tidak ditemukan",
+      robots: { index: false, follow: false },
+    };
+  }
+
+  const url = `/products/${product.slug}`;
 
   return {
     title: product.name,
     description: product.description,
+    alternates: { canonical: url },
+    openGraph: {
+      type: "website",
+      locale: "id_ID",
+      siteName: SITE_NAME,
+      url,
+      title: product.name,
+      description: product.description,
+      images: [{ url: product.image, alt: product.name }],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: product.name,
+      description: product.description,
+      images: [product.image],
+    },
   };
 }
 
@@ -61,8 +85,38 @@ export default async function ProductPage({ params }: ProductPageProps) {
     { label: "Stok tercatat", value: `${product.stock} unit` },
   ];
 
+  const productImage = product.image.startsWith("http")
+    ? product.image
+    : `${SITE_URL}${product.image}`;
+
+  const productJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    name: product.name,
+    description: product.description,
+    image: [productImage],
+    sku: product.slug,
+    category: categoryName,
+    offers: {
+      "@type": "Offer",
+      url: `${SITE_URL}/products/${product.slug}`,
+      priceCurrency: "IDR",
+      price: product.price,
+      availability: inStock
+        ? "https://schema.org/InStock"
+        : "https://schema.org/OutOfStock",
+      itemCondition: "https://schema.org/NewCondition",
+    },
+  };
+
   return (
     <div className="container-page py-8 lg:py-12">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(productJsonLd).replace(/</g, "\\u003c"),
+        }}
+      />
       <nav aria-label="Breadcrumb" className="flex flex-wrap items-center gap-2 text-xs text-muted">
         <Link href="/" className="transition-colors hover:text-text">
           Beranda

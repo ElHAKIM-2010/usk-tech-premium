@@ -28,6 +28,7 @@ export async function generateMetadata({
   return {
     title: `Pesanan ${orderNumber}`,
     description: "Detail pesanan USK Tech Premium.",
+    robots: { index: false, follow: false },
   };
 }
 

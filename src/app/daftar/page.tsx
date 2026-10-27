@@ -11,6 +11,7 @@ export const metadata: Metadata = {
   title: "Daftar",
   description:
     "Buat akun USK Tech Premium. Kata sandi disimpan sebagai hash, bukan teks biasa.",
+  robots: { index: false, follow: false },
 };
 
 export default async function RegisterPage() {

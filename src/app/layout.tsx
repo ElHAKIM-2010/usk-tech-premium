@@ -4,6 +4,12 @@ import { CartProvider } from "@/components/cart/cart-provider";
 import { Footer } from "@/components/layout/footer";
 import { Navbar } from "@/components/layout/navbar";
 import { auth } from "@/auth";
+import {
+  DEFAULT_OG_IMAGE,
+  SITE_DESCRIPTION,
+  SITE_NAME,
+  SITE_URL,
+} from "@/lib/site";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -22,12 +28,28 @@ const sora = Sora({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(SITE_URL),
+  applicationName: SITE_NAME,
   title: {
     default: "USK Tech Premium — Elektronik pilihan",
     template: "%s | USK Tech Premium",
   },
-  description:
-    "Laptop, smartphone, audio, dan aksesori pilihan dari USK Tech Premium. Katalog terkurasi dengan spesifikasi jelas dan harga transparan.",
+  description: SITE_DESCRIPTION,
+  openGraph: {
+    type: "website",
+    locale: "id_ID",
+    siteName: SITE_NAME,
+    title: "USK Tech Premium — Elektronik pilihan",
+    description: SITE_DESCRIPTION,
+    images: [DEFAULT_OG_IMAGE],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "USK Tech Premium — Elektronik pilihan",
+    description: SITE_DESCRIPTION,
+    images: [DEFAULT_OG_IMAGE.url],
+  },
+  robots: { index: true, follow: true },
 };
 
 export const viewport: Viewport = {

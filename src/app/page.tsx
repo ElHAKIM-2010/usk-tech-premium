@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, ArrowUpRight } from "lucide-react";
@@ -7,6 +8,7 @@ import { ProductCard } from "@/components/catalog/product-card";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { buttonClass } from "@/lib/ui";
 import { formatIDR } from "@/lib/format";
+import { DEFAULT_OG_IMAGE, SITE_DESCRIPTION, SITE_NAME } from "@/lib/site";
 import {
   countProducts,
   getFeaturedProducts,
@@ -15,6 +17,19 @@ import {
 } from "@/db/catalog";
 
 export const dynamic = "force-dynamic";
+
+export const metadata: Metadata = {
+  alternates: { canonical: "/" },
+  openGraph: {
+    type: "website",
+    locale: "id_ID",
+    siteName: SITE_NAME,
+    url: "/",
+    title: "USK Tech Premium — Elektronik pilihan",
+    description: SITE_DESCRIPTION,
+    images: [DEFAULT_OG_IMAGE],
+  },
+};
 
 const dateFormatter = new Intl.DateTimeFormat("id-ID", {
   day: "numeric",

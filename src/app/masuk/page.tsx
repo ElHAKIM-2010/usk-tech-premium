@@ -10,6 +10,7 @@ export const dynamic = "force-dynamic";
 export const metadata: Metadata = {
   title: "Masuk",
   description: "Masuk ke akun USK Tech Premium untuk melihat ringkasan akunmu.",
+  robots: { index: false, follow: false },
 };
 
 export default async function LoginPage({

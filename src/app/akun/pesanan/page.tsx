@@ -17,6 +17,7 @@ export const dynamic = "force-dynamic";
 export const metadata: Metadata = {
   title: "Riwayat pesanan",
   description: "Daftar pesanan yang pernah dibuat di USK Tech Premium.",
+  robots: { index: false, follow: false },
 };
 
 const dateFormatter = new Intl.DateTimeFormat("id-ID", {

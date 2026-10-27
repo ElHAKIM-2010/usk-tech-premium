@@ -6,14 +6,27 @@ import { Pagination } from "@/components/catalog/pagination";
 import { ProductCard } from "@/components/catalog/product-card";
 import { SortSelect } from "@/components/catalog/sort-select";
 import { buttonClass } from "@/lib/ui";
+import { DEFAULT_OG_IMAGE, SITE_NAME } from "@/lib/site";
 import { listCategories, listProducts, type ProductSort } from "@/db/catalog";
 
 export const dynamic = "force-dynamic";
 
+const catalogDescription =
+  "Jelajahi katalog USK Tech Premium: laptop, smartphone, TWS, headset, keyboard, mouse, dan aksesori dengan filter kategori serta rentang harga.";
+
 export const metadata: Metadata = {
   title: "Katalog",
-  description:
-    "Jelajahi katalog USK Tech Premium: laptop, smartphone, TWS, headset, keyboard, mouse, dan aksesori dengan filter kategori serta rentang harga.",
+  description: catalogDescription,
+  alternates: { canonical: "/products" },
+  openGraph: {
+    type: "website",
+    locale: "id_ID",
+    siteName: SITE_NAME,
+    url: "/products",
+    title: "Katalog — USK Tech Premium",
+    description: catalogDescription,
+    images: [DEFAULT_OG_IMAGE],
+  },
 };
 
 interface CatalogSearchParams {
