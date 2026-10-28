@@ -33,10 +33,10 @@ export function SectionHeading({
       {action ? (
         <Link
           href={action.href}
-          className="inline-flex shrink-0 items-center gap-1.5 text-sm font-semibold text-accent-text transition hover:opacity-75"
+          className="group inline-flex shrink-0 items-center gap-1.5 text-sm font-semibold text-accent-text transition hover:opacity-75"
         >
           {action.label}
-          <ArrowUpRight className="size-4" />
+          <ArrowUpRight className="size-4 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
         </Link>
       ) : null}
     </div>

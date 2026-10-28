@@ -5,6 +5,7 @@ import { FilterSidebar } from "@/components/catalog/filter-sidebar";
 import { Pagination } from "@/components/catalog/pagination";
 import { ProductCard } from "@/components/catalog/product-card";
 import { SortSelect } from "@/components/catalog/sort-select";
+import { Reveal } from "@/components/ui/reveal";
 import { buttonClass } from "@/lib/ui";
 import { DEFAULT_OG_IMAGE, SITE_NAME } from "@/lib/site";
 import { listCategories, listProducts, type ProductSort } from "@/db/catalog";
@@ -151,7 +152,7 @@ export default async function ProductsPage({
         </span>
       </nav>
 
-      <div className="mt-6 flex flex-col gap-5 border-b border-border pb-8 sm:flex-row sm:items-end sm:justify-between">
+      <div className="animate-rise mt-6 flex flex-col gap-5 border-b border-border pb-8 sm:flex-row sm:items-end sm:justify-between">
         <div>
           <p className="eyebrow">Katalog USK</p>
           <h1 className="mt-3 font-display text-3xl font-semibold tracking-tight sm:text-4xl">
@@ -230,7 +231,7 @@ export default async function ProductsPage({
           </div>
 
           {paginated.length === 0 ? (
-            <div className="mt-8 rounded-2xl border border-dashed border-border px-6 py-20 text-center">
+            <div className="animate-rise mt-8 rounded-2xl border border-dashed border-border px-6 py-20 text-center">
               <SearchX className="mx-auto size-8 text-muted" aria-hidden="true" />
               <h2 className="mt-4 font-display text-lg font-semibold">Produk tidak ditemukan</h2>
               <p className="mx-auto mt-2 max-w-sm text-sm leading-6 text-muted">
@@ -244,11 +245,16 @@ export default async function ProductsPage({
           ) : (
             <div className="mt-5 grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4 xl:grid-cols-3">
               {paginated.map((product, index) => (
-                <ProductCard
+                <Reveal
                   key={product.slug}
-                  product={product}
-                  priority={page === 1 && index < 3}
-                />
+                  delay={Math.min(index * 60, 240)}
+                  className="h-full"
+                >
+                  <ProductCard
+                    product={product}
+                    priority={page === 1 && index < 3}
+                  />
+                </Reveal>
               ))}
             </div>
           )}

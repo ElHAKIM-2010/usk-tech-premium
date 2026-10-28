@@ -10,6 +10,7 @@ import {
   type PointerEvent as ReactPointerEvent,
 } from "react";
 import { ArrowUpRight } from "lucide-react";
+import { cn } from "@/lib/cn";
 import { formatIDR } from "@/lib/format";
 import type { Product } from "@/types/catalog";
 
@@ -222,7 +223,10 @@ export function HeroCarousel({ products }: { products: Product[] }) {
               priority={index === 0}
               draggable={false}
               sizes="(min-width: 1024px) 50vw, 100vw"
-              className="pointer-events-none object-cover"
+              className={cn(
+                "pointer-events-none object-cover",
+                isActive && "animate-kenburns",
+              )}
             />
 
             <div
@@ -232,11 +236,14 @@ export function HeroCarousel({ products }: { products: Product[] }) {
 
             {isActive ? (
               <>
-                <span className="absolute left-3 top-3 rounded-full border border-white/15 bg-black/45 px-3 py-1.5 font-mono text-[10px] uppercase tracking-[0.18em] text-white/80 backdrop-blur-sm">
+                <span className="animate-rise absolute left-3 top-3 rounded-full border border-white/15 bg-black/45 px-3 py-1.5 font-mono text-[10px] uppercase tracking-[0.18em] text-white/80 backdrop-blur-sm">
                   Edisi pilihan
                 </span>
 
-                <div className="absolute bottom-3 left-3 right-3 rounded-2xl border border-white/10 bg-black/75 p-4 text-white shadow-xl backdrop-blur-md sm:bottom-5 sm:left-5 sm:right-auto sm:w-[19.5rem]">
+                <div
+                  className="animate-rise absolute bottom-3 left-3 right-3 rounded-2xl border border-white/10 bg-black/75 p-4 text-white shadow-xl backdrop-blur-md sm:bottom-5 sm:left-5 sm:right-auto sm:w-[19.5rem]"
+                  style={{ animationDelay: "70ms" }}
+                >
                   <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-white/55">
                     Pilihan editor
                   </p>

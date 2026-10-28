@@ -5,6 +5,7 @@ import { notFound } from "next/navigation";
 import { Star } from "lucide-react";
 import { ProductCard } from "@/components/catalog/product-card";
 import { PurchasePanel } from "@/components/product/purchase-panel";
+import { Reveal } from "@/components/ui/reveal";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { discountPercent, formatIDR } from "@/lib/format";
 import { cn } from "@/lib/cn";
@@ -140,7 +141,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
 
       <div className="mt-7 grid gap-8 lg:grid-cols-2 lg:gap-14">
         <div className="lg:sticky lg:top-24 lg:self-start">
-          <div className="relative aspect-square overflow-hidden rounded-3xl border border-border bg-surface-2">
+          <div className="animate-rise relative aspect-square overflow-hidden rounded-3xl border border-border bg-surface-2">
             <Image
               src={product.image}
               alt={product.name}
@@ -169,7 +170,10 @@ export default async function ProductPage({ params }: ProductPageProps) {
           </p>
         </div>
 
-        <div>
+        <div
+          className="animate-rise"
+          style={{ animationDelay: "90ms" }}
+        >
           <p className="eyebrow">{categoryName}</p>
           <h1 className="mt-3 font-display text-3xl font-semibold tracking-tight sm:text-4xl">
             {product.name}
@@ -219,39 +223,49 @@ export default async function ProductPage({ params }: ProductPageProps) {
       </div>
 
       <section className="mt-16 lg:mt-24">
-        <SectionHeading
-          eyebrow="Spesifikasi"
-          title="Detail teknis."
-          description="Informasi utama yang perlu kamu ketahui sebelum memilih."
-        />
+        <Reveal>
+          <SectionHeading
+            eyebrow="Spesifikasi"
+            title="Detail teknis."
+            description="Informasi utama yang perlu kamu ketahui sebelum memilih."
+          />
 
-        <dl className="mt-6 overflow-hidden rounded-2xl border border-border">
-          {product.specs.map((spec, index) => (
-            <div
-              key={spec.label}
-              className={cn(
-                "grid grid-cols-[8rem_1fr] gap-4 px-5 py-3.5 text-sm sm:grid-cols-[12rem_1fr]",
-                index % 2 === 1 ? "bg-surface" : "bg-bg",
-                index > 0 && "border-t border-border",
-              )}
-            >
-              <dt className="text-muted">{spec.label}</dt>
-              <dd className="font-medium">{spec.value}</dd>
-            </div>
-          ))}
-        </dl>
+          <dl className="mt-6 overflow-hidden rounded-2xl border border-border">
+            {product.specs.map((spec, index) => (
+              <div
+                key={spec.label}
+                className={cn(
+                  "grid grid-cols-[8rem_1fr] gap-4 px-5 py-3.5 text-sm sm:grid-cols-[12rem_1fr]",
+                  index % 2 === 1 ? "bg-surface" : "bg-bg",
+                  index > 0 && "border-t border-border",
+                )}
+              >
+                <dt className="text-muted">{spec.label}</dt>
+                <dd className="font-medium">{spec.value}</dd>
+              </div>
+            ))}
+          </dl>
+        </Reveal>
       </section>
 
       <section className="mt-16 lg:mt-24">
-        <SectionHeading
-          eyebrow="Lanjut lihat"
-          title="Produk terkait."
-          action={{ href: `/products?category=${product.category}`, label: `Semua ${categoryName}` }}
-        />
+        <Reveal>
+          <SectionHeading
+            eyebrow="Lanjut lihat"
+            title="Produk terkait."
+            action={{ href: `/products?category=${product.category}`, label: `Semua ${categoryName}` }}
+          />
+        </Reveal>
 
         <div className="mt-8 grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4 lg:grid-cols-3">
-          {recommendations.map((item) => (
-            <ProductCard key={item.slug} product={item} />
+          {recommendations.map((item, index) => (
+            <Reveal
+              key={item.slug}
+              delay={Math.min(index * 70, 210)}
+              className="h-full"
+            >
+              <ProductCard product={item} />
+            </Reveal>
           ))}
         </div>
       </section>

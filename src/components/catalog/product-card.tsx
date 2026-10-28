@@ -72,7 +72,7 @@ export function ProductCard({ product, priority = false, className }: ProductCar
           </div>
           <span
             aria-hidden="true"
-            className="grid size-9 shrink-0 place-items-center rounded-full border border-border text-muted transition-colors group-hover:border-accent-text/50 group-hover:text-accent-text"
+            className="grid size-9 shrink-0 place-items-center rounded-full border border-border text-muted transition-colors group-hover:border-accent group-hover:bg-accent group-hover:text-accent-ink"
           >
             <ArrowUpRight className="size-4" />
           </span>

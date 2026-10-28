@@ -25,6 +25,18 @@ export function Navbar({ userName }: NavbarProps) {
   const router = useRouter();
   const { count, ready } = useCart();
   const [open, setOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    function onScroll() {
+      setScrolled(window.scrollY > 8);
+    }
+
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   function handleMobileSearch(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -48,7 +60,12 @@ export function Navbar({ userName }: NavbarProps) {
   const cartLabel = ready && count > 0 ? `Keranjang, ${count} item` : "Keranjang";
 
   return (
-    <header className="sticky top-0 z-50 border-b border-border bg-header backdrop-blur-md">
+    <header
+      className={cn(
+        "sticky top-0 z-50 border-b border-border bg-header backdrop-blur-md transition-shadow duration-300",
+        scrolled && "shadow-[0_18px_40px_-28px_rgba(0,0,0,0.8)]",
+      )}
+    >
       <div className="container-page flex h-16 items-center gap-4 lg:h-[4.5rem]">
         <Link
           href="/"
@@ -120,7 +137,10 @@ export function Navbar({ userName }: NavbarProps) {
           >
             <ShoppingBag className="size-4" aria-hidden="true" />
             {ready && count > 0 ? (
-              <span className="absolute -right-1 -top-1 flex h-5 min-w-5 items-center justify-center rounded-full bg-accent px-1 font-mono text-[10px] font-semibold text-accent-ink">
+              <span
+                key={count}
+                className="animate-badge-pop absolute -right-1 -top-1 flex h-5 min-w-5 items-center justify-center rounded-full bg-accent px-1 font-mono text-[10px] font-semibold text-accent-ink"
+              >
                 {count > 99 ? "99+" : count}
               </span>
             ) : null}
@@ -139,8 +159,18 @@ export function Navbar({ userName }: NavbarProps) {
         </div>
       </div>
 
-      {open ? (
-        <div id="menu-mobile" className="border-t border-border bg-bg lg:hidden">
+      <div
+        id="menu-mobile"
+        aria-hidden={!open}
+        inert={!open}
+        className={cn(
+          "grid overflow-hidden bg-bg transition-[grid-template-rows,opacity] duration-300 ease-out lg:hidden",
+          open
+            ? "grid-rows-[1fr] border-t border-border opacity-100"
+            : "grid-rows-[0fr] border-t border-transparent opacity-0",
+        )}
+      >
+        <div className="min-h-0 overflow-hidden">
           <div className="container-page space-y-5 py-5">
             <form
               action="/products"
@@ -217,7 +247,7 @@ export function Navbar({ userName }: NavbarProps) {
             </p>
           </div>
         </div>
-      ) : null}
+      </div>
     </header>
   );
 }
