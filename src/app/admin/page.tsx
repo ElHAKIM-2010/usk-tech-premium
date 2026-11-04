@@ -68,7 +68,7 @@ export default async function AdminDashboardPage() {
       </p>
 
       <div className="grid gap-6 xl:grid-cols-[1.4fr_0.6fr]">
-        <section className="rounded-2xl border border-border bg-surface p-6">
+        <section className="min-w-0 rounded-2xl border border-border bg-surface p-6">
           <div className="flex flex-wrap items-center justify-between gap-3">
             <h2 className="font-display text-lg font-semibold">Pesanan terbaru</h2>
             <Link
@@ -129,7 +129,7 @@ export default async function AdminDashboardPage() {
           )}
         </section>
 
-        <section className="rounded-2xl border border-border bg-surface p-6">
+        <section className="min-w-0 rounded-2xl border border-border bg-surface p-6">
           <h2 className="font-display text-lg font-semibold">Stok menipis</h2>
 
           {data.lowStockProducts.length === 0 ? (
