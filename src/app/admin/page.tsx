@@ -8,7 +8,7 @@ import {
 } from "@/components/orders/status-badges";
 import { getAdminDashboard } from "@/db/admin";
 import { requireAdminPage } from "@/lib/admin";
-import { formatIDR } from "@/lib/format";
+import { formatIDR, storeDateFormatter } from "@/lib/format";
 import { buttonClass } from "@/lib/ui";
 
 export const metadata: Metadata = {
@@ -16,7 +16,7 @@ export const metadata: Metadata = {
   robots: { index: false, follow: false },
 };
 
-const dateFormatter = new Intl.DateTimeFormat("id-ID", {
+const dateFormatter = storeDateFormatter({
   dateStyle: "medium",
   timeStyle: "short",
 });

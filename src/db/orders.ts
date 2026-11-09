@@ -220,6 +220,29 @@ export async function listOrdersForUser(
   }));
 }
 
+export async function getLastRecipientForUser(
+  userId: string,
+): Promise<CheckoutRecipient | null> {
+  const db = getDb();
+  const order = await db.query.orders.findFirst({
+    where: eq(orders.userId, userId),
+    orderBy: [desc(orders.createdAt)],
+    columns: {
+      recipientName: true,
+      recipientPhone: true,
+      addressLine: true,
+      city: true,
+      province: true,
+      postalCode: true,
+      notes: true,
+    },
+  });
+
+  if (!order) return null;
+
+  return { ...order, notes: order.notes ?? undefined };
+}
+
 export async function getOrderForUser(
   orderNumber: string,
   userId: string,

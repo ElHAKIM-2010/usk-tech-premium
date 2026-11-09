@@ -9,7 +9,7 @@ import { Reveal } from "@/components/ui/reveal";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { buttonClass } from "@/lib/ui";
 import { cn } from "@/lib/cn";
-import { formatIDR } from "@/lib/format";
+import { formatIDR, storeDateFormatter } from "@/lib/format";
 import { DEFAULT_OG_IMAGE, SITE_DESCRIPTION, SITE_NAME } from "@/lib/site";
 import {
   countProducts,
@@ -33,7 +33,7 @@ export const metadata: Metadata = {
   },
 };
 
-const dateFormatter = new Intl.DateTimeFormat("id-ID", {
+const dateFormatter = storeDateFormatter({
   day: "numeric",
   month: "short",
   year: "numeric",

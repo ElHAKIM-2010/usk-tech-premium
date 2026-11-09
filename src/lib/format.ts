@@ -1,3 +1,12 @@
+export const STORE_TIME_ZONE = "Asia/Jakarta";
+
+export function storeDateFormatter(options: Intl.DateTimeFormatOptions) {
+  return new Intl.DateTimeFormat("id-ID", {
+    timeZone: STORE_TIME_ZONE,
+    ...options,
+  });
+}
+
 export function formatIDR(value: number) {
   return new Intl.NumberFormat("id-ID", {
     style: "currency",

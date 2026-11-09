@@ -9,6 +9,7 @@ import { ArrowRight, Banknote, CheckCircle2, ShoppingBag } from "lucide-react";
 import { submitCheckout } from "./actions";
 import { useCart } from "@/components/cart/cart-provider";
 import { initialCheckoutState } from "@/lib/checkout";
+import type { CheckoutRecipient } from "@/db/orders";
 import { cn } from "@/lib/cn";
 import { formatIDR } from "@/lib/format";
 import { buttonClass } from "@/lib/ui";
@@ -17,6 +18,7 @@ import type { Product } from "@/types/catalog";
 interface CheckoutFormProps {
   catalog: Product[];
   bankConfigured: boolean;
+  defaultValues?: CheckoutRecipient | null;
 }
 
 const inputClass =
@@ -32,7 +34,11 @@ function FieldError({ id, message }: { id: string; message?: string }) {
   );
 }
 
-export function CheckoutForm({ catalog, bankConfigured }: CheckoutFormProps) {
+export function CheckoutForm({
+  catalog,
+  bankConfigured,
+  defaultValues,
+}: CheckoutFormProps) {
   const router = useRouter();
   const { lines, ready, clear } = useCart();
   const [state, formAction, pending] = useActionState(
@@ -151,6 +157,11 @@ export function CheckoutForm({ catalog, bankConfigured }: CheckoutFormProps) {
           <p className="mt-1 text-xs text-muted">
             Nama dan nomor yang bisa dihubungi kurir.
           </p>
+          {defaultValues ? (
+            <p className="mt-2 text-xs leading-5 text-accent-text">
+              Data diisi dari pesanan terakhirmu. Periksa dan ubah bila perlu.
+            </p>
+          ) : null}
 
           <div className="mt-5 grid gap-4 sm:grid-cols-2">
             <div>
@@ -163,6 +174,7 @@ export function CheckoutForm({ catalog, bankConfigured }: CheckoutFormProps) {
                 type="text"
                 autoComplete="name"
                 maxLength={80}
+                defaultValue={defaultValues?.recipientName}
                 aria-invalid={Boolean(fieldErrors.recipientName)}
                 aria-describedby={
                   fieldErrors.recipientName ? "recipientName-error" : undefined
@@ -190,6 +202,7 @@ export function CheckoutForm({ catalog, bankConfigured }: CheckoutFormProps) {
                 autoComplete="tel"
                 placeholder="081234567890"
                 maxLength={20}
+                defaultValue={defaultValues?.recipientPhone}
                 aria-invalid={Boolean(fieldErrors.recipientPhone)}
                 aria-describedby={
                   fieldErrors.recipientPhone ? "recipientPhone-error" : undefined
@@ -225,6 +238,7 @@ export function CheckoutForm({ catalog, bankConfigured }: CheckoutFormProps) {
                 autoComplete="street-address"
                 maxLength={300}
                 placeholder="Jalan, nomor rumah, RT/RW, kecamatan"
+                defaultValue={defaultValues?.addressLine}
                 aria-invalid={Boolean(fieldErrors.addressLine)}
                 aria-describedby={
                   fieldErrors.addressLine ? "addressLine-error" : undefined
@@ -249,6 +263,7 @@ export function CheckoutForm({ catalog, bankConfigured }: CheckoutFormProps) {
                   type="text"
                   autoComplete="address-level2"
                   maxLength={80}
+                  defaultValue={defaultValues?.city}
                   aria-invalid={Boolean(fieldErrors.city)}
                   aria-describedby={fieldErrors.city ? "city-error" : undefined}
                   className={cn(inputClass, fieldErrors.city && "border-danger/60")}
@@ -266,6 +281,7 @@ export function CheckoutForm({ catalog, bankConfigured }: CheckoutFormProps) {
                   type="text"
                   autoComplete="address-level1"
                   maxLength={80}
+                  defaultValue={defaultValues?.province}
                   aria-invalid={Boolean(fieldErrors.province)}
                   aria-describedby={
                     fieldErrors.province ? "province-error" : undefined
@@ -291,6 +307,7 @@ export function CheckoutForm({ catalog, bankConfigured }: CheckoutFormProps) {
                   inputMode="numeric"
                   autoComplete="postal-code"
                   maxLength={5}
+                  defaultValue={defaultValues?.postalCode}
                   aria-invalid={Boolean(fieldErrors.postalCode)}
                   aria-describedby={
                     fieldErrors.postalCode ? "postalCode-error" : undefined
@@ -313,6 +330,7 @@ export function CheckoutForm({ catalog, bankConfigured }: CheckoutFormProps) {
                   type="text"
                   maxLength={300}
                   placeholder="Patokan alamat atau instruksi kurir"
+                  defaultValue={defaultValues?.notes}
                   aria-invalid={Boolean(fieldErrors.notes)}
                   aria-describedby={fieldErrors.notes ? "notes-error" : undefined}
                   className={cn(inputClass, fieldErrors.notes && "border-danger/60")}

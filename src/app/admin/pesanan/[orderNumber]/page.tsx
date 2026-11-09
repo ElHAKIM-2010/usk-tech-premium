@@ -8,7 +8,7 @@ import {
 } from "@/components/orders/status-badges";
 import { getAdminOrderByNumber } from "@/db/admin";
 import { requireAdminPage } from "@/lib/admin";
-import { formatIDR } from "@/lib/format";
+import { formatIDR, storeDateFormatter } from "@/lib/format";
 import { paymentMethodLabel } from "@/lib/order-labels";
 import { orderStatusTransitions } from "@/lib/order-status";
 import { OrderStatusForm } from "../order-status-form";
@@ -18,7 +18,7 @@ export const metadata: Metadata = {
   robots: { index: false, follow: false },
 };
 
-const dateFormatter = new Intl.DateTimeFormat("id-ID", {
+const dateFormatter = storeDateFormatter({
   dateStyle: "long",
   timeStyle: "short",
 });

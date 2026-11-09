@@ -9,7 +9,7 @@ import {
 } from "@/components/orders/status-badges";
 import { listOrdersForUser } from "@/db/orders";
 import { getCurrentUser } from "@/lib/current-user";
-import { formatIDR } from "@/lib/format";
+import { formatIDR, storeDateFormatter } from "@/lib/format";
 import { buttonClass } from "@/lib/ui";
 
 export const dynamic = "force-dynamic";
@@ -20,7 +20,7 @@ export const metadata: Metadata = {
   robots: { index: false, follow: false },
 };
 
-const dateFormatter = new Intl.DateTimeFormat("id-ID", {
+const dateFormatter = storeDateFormatter({
   dateStyle: "medium",
   timeStyle: "short",
 });

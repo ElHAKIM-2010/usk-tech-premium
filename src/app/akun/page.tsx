@@ -9,7 +9,7 @@ import {
 } from "@/components/orders/status-badges";
 import { listOrdersForUser } from "@/db/orders";
 import { getCurrentUser } from "@/lib/current-user";
-import { formatIDR } from "@/lib/format";
+import { formatIDR, storeDateFormatter } from "@/lib/format";
 import { buttonClass } from "@/lib/ui";
 import { logout } from "./actions";
 
@@ -21,13 +21,13 @@ export const metadata: Metadata = {
   robots: { index: false, follow: false },
 };
 
-const joinedFormatter = new Intl.DateTimeFormat("id-ID", {
+const joinedFormatter = storeDateFormatter({
   day: "numeric",
   month: "long",
   year: "numeric",
 });
 
-const orderDateFormatter = new Intl.DateTimeFormat("id-ID", {
+const orderDateFormatter = storeDateFormatter({
   dateStyle: "medium",
   timeStyle: "short",
 });

@@ -3,7 +3,9 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 
 import { CheckoutForm } from "./checkout-form";
+import { CheckoutSteps } from "@/components/checkout/checkout-steps";
 import { listAllProducts } from "@/db/catalog";
+import { getLastRecipientForUser } from "@/db/orders";
 import { getCurrentUser } from "@/lib/current-user";
 import { getBankAccount } from "@/lib/payment";
 
@@ -21,6 +23,7 @@ export default async function CheckoutPage() {
   if (!user) redirect("/masuk?next=/checkout");
 
   const catalog = await listAllProducts();
+  const lastRecipient = await getLastRecipientForUser(user.id);
 
   return (
     <div className="container-page py-10 lg:py-14">
@@ -49,9 +52,12 @@ export default async function CheckoutPage() {
         </p>
       </div>
 
+      <CheckoutSteps />
+
       <CheckoutForm
         catalog={catalog}
         bankConfigured={getBankAccount() !== null}
+        defaultValues={lastRecipient}
       />
     </div>
   );

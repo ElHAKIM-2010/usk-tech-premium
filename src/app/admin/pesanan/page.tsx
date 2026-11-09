@@ -9,7 +9,7 @@ import {
 import { listAdminOrders } from "@/db/admin";
 import { requireAdminPage } from "@/lib/admin";
 import { orderStatusValues } from "@/lib/admin-schemas";
-import { formatIDR } from "@/lib/format";
+import { formatIDR, storeDateFormatter } from "@/lib/format";
 import { orderStatusLabel } from "@/lib/order-labels";
 import { buttonClass } from "@/lib/ui";
 
@@ -18,7 +18,7 @@ export const metadata: Metadata = {
   robots: { index: false, follow: false },
 };
 
-const dateFormatter = new Intl.DateTimeFormat("id-ID", {
+const dateFormatter = storeDateFormatter({
   dateStyle: "medium",
   timeStyle: "short",
 });

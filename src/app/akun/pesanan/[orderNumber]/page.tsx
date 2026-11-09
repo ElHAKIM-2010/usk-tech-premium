@@ -8,9 +8,11 @@ import {
   OrderStatusBadge,
   PaymentStatusBadge,
 } from "@/components/orders/status-badges";
+import { CopyButton } from "@/components/orders/copy-button";
+import { OrderTimeline } from "@/components/orders/order-timeline";
 import { getOrderForUser } from "@/db/orders";
 import { getCurrentUser } from "@/lib/current-user";
-import { formatIDR } from "@/lib/format";
+import { formatIDR, storeDateFormatter } from "@/lib/format";
 import { paymentMethodLabel } from "@/lib/order-labels";
 import { getBankAccount } from "@/lib/payment";
 
@@ -32,7 +34,7 @@ export async function generateMetadata({
   };
 }
 
-const dateFormatter = new Intl.DateTimeFormat("id-ID", {
+const dateFormatter = storeDateFormatter({
   dateStyle: "long",
   timeStyle: "short",
 });
@@ -88,10 +90,15 @@ export default async function OrderDetailPage({
         <div className="mt-4 flex flex-wrap items-center gap-2">
           <OrderStatusBadge status={order.status} />
           <PaymentStatusBadge status={order.paymentStatus} />
+          <CopyButton value={order.orderNumber} label="Salin nomor" />
         </div>
       </div>
 
-      <div className="mt-8 grid gap-6 lg:grid-cols-[minmax(0,1.3fr)_minmax(0,0.8fr)]">
+      <div className="mt-8">
+        <OrderTimeline status={order.status} />
+      </div>
+
+      <div className="mt-6 grid gap-6 lg:grid-cols-[minmax(0,1.3fr)_minmax(0,0.8fr)]">
         <div className="min-w-0 space-y-6">
           <section className="rounded-2xl border border-border bg-surface p-5 sm:p-6">
             <div className="flex items-center gap-3">
@@ -201,7 +208,10 @@ export default async function OrderDetailPage({
                     </div>
                     <div>
                       <dt className="label-mono">Nomor rekening</dt>
-                      <dd className="mt-1 font-mono text-base">{bank.number}</dd>
+                      <dd className="mt-1 flex flex-wrap items-center justify-between gap-2">
+                        <span className="font-mono text-base">{bank.number}</span>
+                        <CopyButton value={bank.number} label="Salin" />
+                      </dd>
                     </div>
                     <div>
                       <dt className="label-mono">Atas nama</dt>
@@ -209,11 +219,17 @@ export default async function OrderDetailPage({
                     </div>
                     <div>
                       <dt className="label-mono">Jumlah transfer</dt>
-                      <dd className="mt-1 font-semibold">{formatIDR(order.total)}</dd>
+                      <dd className="mt-1 flex flex-wrap items-center justify-between gap-2">
+                        <span className="font-semibold">{formatIDR(order.total)}</span>
+                        <CopyButton value={String(order.total)} label="Salin" />
+                      </dd>
                     </div>
                     <div>
                       <dt className="label-mono">Berita transfer</dt>
-                      <dd className="mt-1 font-mono">{order.orderNumber}</dd>
+                      <dd className="mt-1 flex flex-wrap items-center justify-between gap-2">
+                        <span className="font-mono">{order.orderNumber}</span>
+                        <CopyButton value={order.orderNumber} label="Salin" />
+                      </dd>
                     </div>
                   </dl>
                   <p className="mt-3 text-[11px] leading-5 text-muted">
